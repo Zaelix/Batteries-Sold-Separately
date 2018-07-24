@@ -6,10 +6,12 @@ public class SessionManager : MonoBehaviour{
 	GameObject cam;
 	GameObject selectionBox;
 	GameObject selection;
+    GameObject buildGhost;
 	GameObject[,] floorMap = new GameObject[50,50];
 	GameObject[,] factoryMap = new GameObject[50,50];
-	Dictionary<string, double> costs = new Dictionary<string,double> ();
-	bool isBuilding = false;
+    Dictionary<string, double> costs = new Dictionary<string, double>();
+    Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+    bool isBuilding = false;
 	string buildingType = "";
 
 	double pricePerKW = 0.02;
@@ -20,9 +22,16 @@ public class SessionManager : MonoBehaviour{
 	void Start () {
 		cam = GameObject.FindGameObjectWithTag ("MainCamera");
 		InitializeFloor ();
-		InitializeCosts ();
+		InitializeDictionaries ();
 		selectionBox = GameObject.FindGameObjectWithTag ("Player");
-	}
+        foreach (Transform child in selectionBox.transform)
+        {
+            if (child.tag != "Player")
+            {
+                buildGhost = child.gameObject;
+            }
+        }
+    }
 
 	private void InitializeFloor(){
 		for (int x = 0; x < 50; x++) {
@@ -32,11 +41,14 @@ public class SessionManager : MonoBehaviour{
 		}
 	}
 
-	private void InitializeCosts(){
+	private void InitializeDictionaries(){
 		costs.Add ("", 9999999);
+        sprites.Add("", Resources.Load<Sprite>("images/select"));
 		costs.Add ("Boiler", 300);
-		costs.Add ("Turbine", 500);
-	}
+        sprites.Add("Boiler", Resources.Load<Sprite>("images/Boiler"));
+        costs.Add ("Turbine", 500);
+        sprites.Add("Turbine", Resources.Load<Sprite>("images/Turbine"));
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -80,13 +92,12 @@ public class SessionManager : MonoBehaviour{
 		}
 
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
-			isBuilding = true;
-			buildingType = "Boiler";
+            SetBuilding("Boiler");
 		}
-		else if (Input.GetKeyDown (KeyCode.Alpha2)) {
-			isBuilding = true;
-			buildingType = "Turbine";
-		}
+		else if (Input.GetKeyDown (KeyCode.Alpha2))
+        {
+            SetBuilding("Turbine");
+        }
 
 		// Mouse Input
 		if (Input.GetMouseButtonDown (0) && isBuilding == true && selection.GetComponent<Tile>().IsBuildable() && moneyTotal >= costs[buildingType]) {
@@ -97,9 +108,18 @@ public class SessionManager : MonoBehaviour{
 		}
 
 		if (Input.GetMouseButtonUp (1) || Input.GetKeyDown(KeyCode.Escape)) {
+            SetBuilding("");
 			isBuilding = false;
 		}
 	}
+
+    private void SetBuilding(string type)
+    {
+        isBuilding = true;
+        buildingType = type;
+        buildGhost.GetComponent<SpriteRenderer>().sprite = sprites[type];
+        Debug.Log(sprites[type]);
+    }
 
 	private GameObject CreateMachineObject(string bName, int x, int y){
 		GameObject tile = (GameObject)Instantiate(Resources.Load(bName), new Vector2(x,y), Quaternion.identity);
@@ -132,7 +152,7 @@ public class SessionManager : MonoBehaviour{
 	}
 
 	public void SetSelectionColor(Color color){
-		selectionBox.GetComponent<Renderer> ().material.color = color;
+		selectionBox.GetComponent<SpriteRenderer> ().material.color = color;
 	}
 
 	public GameObject GetSelectionBox(){
