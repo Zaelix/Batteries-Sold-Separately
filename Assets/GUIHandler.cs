@@ -7,7 +7,12 @@ public class GUIHandler : MonoBehaviour {
 	public GameObject powerDisplay;
 	public GameObject moneyDisplay;
     public GameObject dayNightDisplay;
+    public GameObject timeDisplay;
 	SessionManager sm;
+
+    float time;
+    string ampm = "am";
+
 	// Use this for initialization
 	void Start () {
 		sm = this.gameObject.GetComponent<SessionManager>();
@@ -17,16 +22,22 @@ public class GUIHandler : MonoBehaviour {
 	void Update () {
 		powerDisplay.GetComponent<Text> ().text = sm.PowerTotal + " KW/H";
 		moneyDisplay.GetComponent<Text> ().text = sm.MoneyTotal.ToString("F");
-	}
+        timeDisplay.GetComponent<Text>().text = ((int)(time % 12)+1).ToString("00") + ampm;
+    }
 
     void FixedUpdate()
     {
-        dayNightDisplay.GetComponent<Slider>().value += 0.05f;
-        float time = dayNightDisplay.GetComponent<Slider>().value;
-        dayNightDisplay.GetComponentInChildren<Image>().color = (Color.white * (1- (Distance(time, 12)/12)))+(Color.black * (Distance(time, 12) / 12));
+        dayNightDisplay.GetComponent<Slider>().value += 0.01f;
+        time = dayNightDisplay.GetComponent<Slider>().value;
+        dayNightDisplay.GetComponentInChildren<Image>().color = (Color.blue * (1- (Distance(time, 12)/12)))+(Color.black * (Distance(time, 12) / 12));
         if (time >= 24)
         {
+            ampm = "am";
             dayNightDisplay.GetComponent<Slider>().value = 0;
+        }
+        else if(time >= 12)
+        {
+            ampm = "pm";
         }
     }
 
