@@ -16,10 +16,11 @@ public class SessionManager : MonoBehaviour{
 
 	double pricePerKW = 0.02;
 	double powerTotal = 0;
-	double moneyTotal = 1000;
+	double moneyTotal = 10000;
 
 	// Use this for initialization
 	void Start () {
+        Tile.SetManager(this.gameObject);
 		cam = GameObject.FindGameObjectWithTag ("MainCamera");
 		InitializeFloor ();
 		InitializeDictionaries ();
@@ -122,23 +123,20 @@ public class SessionManager : MonoBehaviour{
     }
 
 	private GameObject CreateMachineObject(string bName, int x, int y){
-		GameObject tile = (GameObject)Instantiate(Resources.Load(bName), new Vector2(x,y), Quaternion.identity);
-		tile.transform.position -= new Vector3(0,0,0.1f);
+		GameObject tile = (GameObject)Instantiate(Resources.Load(bName), new Vector3(x,y,-0.1f), Quaternion.identity);
 		Tile t = tile.GetComponent<Tile> ();
-		t.SetTileName (bName);
+        t.SetTileName (bName);
 		t.SetCost (costs[bName]);
 		t.SetBuildable (false);
-		t.SetManager (this.gameObject);
 		return tile;
 	}
 
 	private GameObject CreateFloorObject(int x, int y){
 		GameObject tile = (GameObject)Instantiate(Resources.Load("Metal"), new Vector2(x,y), Quaternion.identity);
 		Tile t = tile.GetComponent<Tile> ();
-		t.SetTileName ("Metal");
+        t.SetTileName ("Metal");
 		t.SetCost (10);
 		t.SetBuildable (true);
-		t.SetManager (this.gameObject);
 		return tile;
 	}
 
@@ -169,7 +167,15 @@ public class SessionManager : MonoBehaviour{
 		}
 	}
 
-	public double MoneyTotal {
+    public GameObject[,] FactoryMap
+    {
+        get
+        {
+            return factoryMap;
+        }
+    }
+
+    public double MoneyTotal {
 		get {
 			return moneyTotal;
 		}

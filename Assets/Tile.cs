@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour {
-	GameObject manager;
-	Texture2D texture;
+	static GameObject manager;
+    static SessionManager sm;
+    Texture2D texture;
 	string tileName;
 	double cost;
 	protected double kwProduced = 0;
@@ -13,8 +14,7 @@ public class Tile : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -51,9 +51,10 @@ public class Tile : MonoBehaviour {
 		return canBeBuiltOn;
 	}
 
-	public void SetManager(GameObject m){
-		this.manager = m;
-	}
+	public static void SetManager(GameObject m){
+		manager = m;
+        sm = manager.GetComponent<SessionManager>();
+    }
 
 	public double KwProduced {
 		get {
@@ -61,8 +62,45 @@ public class Tile : MonoBehaviour {
 		}
 	}
 
+    public GameObject[] GetNeighbors() {
+        GameObject[,] map = sm.FactoryMap;
+        GameObject[] neighbors = new GameObject[4];
+        int x = (int)this.transform.position.x;
+        int y = (int)this.transform.position.y;
+        int nCount = 0;
+        // Right neighbor
+        if(x < map.GetLength(0) - 1 && map[x + 1, y] != null)
+        {
+            neighbors[nCount] = map[x + 1, y];
+            nCount++;
+        }
+        // Left Neighbor
+        if (x > 0 && map[x - 1, y] != null)
+        {
+            neighbors[nCount] = map[x - 1, y];
+            nCount++;
+        }
+        // Top Neighbor
+        if (y < map.GetLength(1) - 1 && map[x, y + 1] != null)
+        {
+            neighbors[nCount] = map[x, y + 1];
+            nCount++;
+        }
+        // Bottom Neighbor
+        if (y > 0 && map[x, y - 1] != null)
+        {
+            neighbors[nCount] = map[x, y - 1];
+            nCount++;
+        }
+        GameObject[] nn = new GameObject[nCount];
+        for(int i = 0; i < nCount; i++)
+        {
+            nn[i] = neighbors[i];
+        }
+        return nn;
+    }
+
 	void OnMouseOver(){
-		SessionManager sm = manager.GetComponent<SessionManager> ();
 		sm.SetSelection (this.gameObject);
 		if (sm.GetBuildStatus ()) {
 			//this.GetComponent<Renderer> ().material.shader = Shader.Find ("Particles/VertexLit Blended");
