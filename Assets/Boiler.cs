@@ -17,13 +17,13 @@ public class Boiler : Tile {
 
     public double GetAvailableSteam()
     {
-        Debug.Log("Boiler at " + this.transform.position.x + ", " + this.transform.position.y + " has " + (steamProduced - steamUsed) + " available steam.");
+        //Debug.Log("Boiler at " + this.transform.position.x + ", " + this.transform.position.y + " has " + (steamProduced - steamUsed) + " available steam.");
         return steamProduced - steamUsed;
     }
 
     public void UseSteam(double steam)
     {
         steamUsed = Math.Min(steamUsed+steam, 5);
-        Debug.Log("Boiler at " + this.transform.position.x + ", " + this.transform.position.y + " using " + steamUsed + " steam");
+        //Debug.Log("Boiler at " + this.transform.position.x + ", " + this.transform.position.y + " using " + steamUsed + " steam");
     }
 }
