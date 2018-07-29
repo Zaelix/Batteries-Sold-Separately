@@ -8,9 +8,11 @@ public class GUIHandler : MonoBehaviour {
 	public GameObject moneyDisplay;
     public GameObject dayNightDisplay;
     public GameObject timeDisplay;
+    public GameObject priceDisplay;
+    public GameObject demandDisplay;
 	SessionManager sm;
 
-    float time;
+    private float time;
     string ampm = "am";
 
 	// Use this for initialization
@@ -23,6 +25,8 @@ public class GUIHandler : MonoBehaviour {
 		powerDisplay.GetComponent<Text> ().text = sm.PowerTotal + " KW/H";
 		moneyDisplay.GetComponent<Text> ().text = sm.MoneyTotal.ToString("F");
         timeDisplay.GetComponent<Text>().text = ((int)(time % 12)+1).ToString("00") + ampm;
+        priceDisplay.GetComponent<Text>().text = "Price: " + sm.PricePerKW.ToString("0.00");
+        demandDisplay.GetComponent<Text>().text = "Demand:" + sm.CurrentDemand.ToString("F");
     }
 
     void FixedUpdate()
@@ -44,5 +48,10 @@ public class GUIHandler : MonoBehaviour {
     float Distance(float a, float b)
     {
         return Mathf.Abs(a - b);
+    }
+
+    public float GetTime()
+    {
+        return this.time;
     }
 }

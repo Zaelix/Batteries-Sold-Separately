@@ -18,6 +18,11 @@ public class SessionManager : MonoBehaviour{
 	double powerTotal = 0;
 	double moneyTotal = 10000;
 
+    double[] marketDemandCurve = new double[] { 82, 77, 74, 71, 72, 73, 75, 77, 80, 82, 85, 87, 89, 92, 94, 96, 98, 99, 100, 100, 95, 92, 88, 83, 82 };
+    double currentDemand = 0;
+    double marketPowerDemand = 10000;
+    double marketPowerSupply = 0;
+
 	// Use this for initialization
 	void Start () {
         Tile.SetManager(this.gameObject);
@@ -55,11 +60,19 @@ public class SessionManager : MonoBehaviour{
 	void Update () {
 		GetInput ();
 		CountPowerProduced ();
+        CalculateMarketDemand();
 	}
 
 	void FixedUpdate(){
 		moneyTotal += (powerTotal * pricePerKW)/10.0;
 	}
+
+    private void CalculateMarketDemand()
+    {
+        int time = (int)this.gameObject.GetComponent<GUIHandler>().GetTime();
+        currentDemand = marketPowerDemand * (marketDemandCurve[time] / 100);
+        pricePerKW = (currentDemand / marketPowerSupply)*0.02;
+    }
 
 	private void CountPowerProduced(){
 		double power = 0;
@@ -180,4 +193,25 @@ public class SessionManager : MonoBehaviour{
 			return moneyTotal;
 		}
 	}
+
+    public double CurrentDemand
+    {
+        get
+        {
+            return currentDemand;
+        }
+    }
+
+    public double PricePerKW
+    {
+        get
+        {
+            return pricePerKW;
+        }
+    }
+
+    public void SetPowerDemand()
+    {
+
+    }
 }
