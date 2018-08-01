@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Turbine : Tile {
 	public double steam = 0;
-	public double maxSteam = 20;
+	public double maxSteam = 35;
     double kwPerSteamUnit = 1;
+    
 
     // Use this for initialization
     void Start () {
 		kwProduced = 0;
+        maintenanceCost = 5.50;
 	}
 	
 	// Update is called once per frame
@@ -32,9 +34,15 @@ public class Turbine : Tile {
                     steamUnits += maxSteam - steam;
                     b.UseSteam(maxSteam - steam);
                 }
+               // Debug.Log("Steam: " + steam + " / " + maxSteam);
             }
         }
         steam += steamUnits;
         kwProduced = steam * kwPerSteamUnit;
+    }
+    override
+    public double PerformDailyMaintenance()
+    {
+        return maintenanceCost;
     }
 }

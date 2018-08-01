@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
-	static GameObject manager;
-    static SessionManager sm;
+public abstract class Tile : MonoBehaviour {
+	protected static GameObject manager;
+    protected static SessionManager sm;
     Texture2D texture;
 	string tileName;
 	double cost;
+    protected double maintenanceCost = 0;
 	protected double kwProduced = 0;
 
 	bool canBeBuiltOn;
@@ -61,6 +62,16 @@ public class Tile : MonoBehaviour {
 			return kwProduced;
 		}
 	}
+
+    public double MaintenanceCost
+    {
+        get
+        {
+            return maintenanceCost;
+        }
+    }
+
+    public abstract double PerformDailyMaintenance();
 
     public GameObject[] GetNeighbors() {
         GameObject[,] map = sm.FactoryMap;

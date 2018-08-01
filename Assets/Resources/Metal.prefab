@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4409105209711764}
   - component: {fileID: 212952135050779860}
-  - component: {fileID: 114488833202878088}
   - component: {fileID: 61852553413178196}
+  - component: {fileID: 114504516596239144}
   m_Layer: 0
   m_Name: Metal
   m_TagString: Untagged
@@ -67,7 +67,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.55, y: 2.55}
   m_EdgeRadius: 0
---- !u!114 &114488833202878088
+--- !u!114 &114504516596239144
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1873473089033656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b3dfba6f4e50564bab39400555c992e, type: 3}
+  m_Script: {fileID: 11500000, guid: 15e7a4ecc36fc064ea0415b2a8528473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212952135050779860

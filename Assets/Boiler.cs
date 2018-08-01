@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Boiler : Tile {
-	double steamProduced = 5;
+	double steamProduced = 8.142;
     double steamUsed = 0;
+
 	// Use this for initialization
 	void Start () {
-		steamProduced = 5;
+        maintenanceCost = 0.08;
 	}
 	
 	// Update is called once per frame
@@ -23,7 +24,12 @@ public class Boiler : Tile {
 
     public void UseSteam(double steam)
     {
-        steamUsed = Math.Min(steamUsed+steam, 5);
+        steamUsed = Math.Min(steamUsed+steam, steamProduced);
         //Debug.Log("Boiler at " + this.transform.position.x + ", " + this.transform.position.y + " using " + steamUsed + " steam");
+    }
+    override
+    public double PerformDailyMaintenance()
+    {
+        return 24*sm.PriceOfCoal + 2.50;
     }
 }
