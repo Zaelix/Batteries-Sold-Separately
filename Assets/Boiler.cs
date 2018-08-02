@@ -9,7 +9,6 @@ public class Boiler : Tile {
 
 	// Use this for initialization
 	void Start () {
-        maintenanceCost = 0.08;
 	}
 	
 	// Update is called once per frame
@@ -30,6 +29,6 @@ public class Boiler : Tile {
     override
     public double PerformDailyMaintenance()
     {
-        return 24*sm.PriceOfCoal + 2.50;
+        return 24*sm.PriceOfCoal + 1.50;
     }
 }

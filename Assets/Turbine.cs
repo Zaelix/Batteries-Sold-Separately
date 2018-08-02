@@ -11,7 +11,7 @@ public class Turbine : Tile {
     // Use this for initialization
     void Start () {
 		kwProduced = 0;
-        maintenanceCost = 5.50;
+        maintenanceCost = 2.50;
 	}
 	
 	// Update is called once per frame
