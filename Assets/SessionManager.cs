@@ -67,14 +67,14 @@ public class SessionManager : MonoBehaviour{
 		costs.Add ("", 9999999);
         sprites.Add("", Resources.Load<Sprite>("images/select"));
         costs.Add("Hobbyist Boiler", 300);
-        sprites.Add("Hobbyist Boiler", Resources.Load<Sprite>("images/Boiler"));
+        sprites.Add("Hobbyist Boiler", Resources.Load<Sprite>("images/Hobbyist Boiler"));
         costs.Add("Industrial Boiler", 1000);
-        sprites.Add("Industrial Boiler", Resources.Load<Sprite>("images/Boiler"));
+        sprites.Add("Industrial Boiler", Resources.Load<Sprite>("images/Industrial Boiler"));
 
         costs.Add("Hobbyist Turbine", 350);
-        sprites.Add("Hobbyist Turbine", Resources.Load<Sprite>("images/Turbine"));
+        sprites.Add("Hobbyist Turbine", Resources.Load<Sprite>("images/Hobbyist Turbine"));
         costs.Add ("Industrial Turbine", 1000);
-        sprites.Add("Industrial Turbine", Resources.Load<Sprite>("images/Turbine"));
+        sprites.Add("Industrial Turbine", Resources.Load<Sprite>("images/Industrial Turbine"));
 
         // 
     }
