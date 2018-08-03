@@ -7,6 +7,9 @@ public class Boiler : Tile {
 	double steamProduced = 8.142;
     double steamUsed = 0;
     double coalUsed;
+    int outletPressure = 0;
+    int outletTemperature = 0;
+
 	// Use this for initialization
 	void Start () {
         switch (TileName)
@@ -14,12 +17,16 @@ public class Boiler : Tile {
             case "Hobbyist Boiler":
                 steamProduced = 8.142;
                 maintenanceCost = 1.50;
+                outletPressure = 70;
+                outletTemperature = 225;
                 coalUsed = 1;
                 break;
             case "Industrial Boiler":
                 steamProduced = 80;
                 maintenanceCost = 5.50;
-                coalUsed = 7;
+                outletPressure = 150;
+                outletTemperature = 400;
+                coalUsed = 8;
                 break;
             default:
                 break;

@@ -30,6 +30,7 @@ public class SessionManager : MonoBehaviour{
     double marketPowerSupply = 0;
     double competitorPowerGenerated = 5000;
     double totalMaintenanceCost = 0;
+    double dailyIncome = 0;
 
     // Reference vars
     private int time;
@@ -68,15 +69,13 @@ public class SessionManager : MonoBehaviour{
         sprites.Add("", Resources.Load<Sprite>("images/select"));
         costs.Add("Hobbyist Boiler", 300);
         sprites.Add("Hobbyist Boiler", Resources.Load<Sprite>("images/Hobbyist Boiler"));
-        costs.Add("Industrial Boiler", 1000);
+        costs.Add("Industrial Boiler", 3000);
         sprites.Add("Industrial Boiler", Resources.Load<Sprite>("images/Industrial Boiler"));
 
         costs.Add("Hobbyist Turbine", 350);
         sprites.Add("Hobbyist Turbine", Resources.Load<Sprite>("images/Hobbyist Turbine"));
-        costs.Add ("Industrial Turbine", 1000);
+        costs.Add ("Industrial Turbine", 3500);
         sprites.Add("Industrial Turbine", Resources.Load<Sprite>("images/Industrial Turbine"));
-
-        // 
     }
 
 	// Update is called once per frame
@@ -89,18 +88,22 @@ public class SessionManager : MonoBehaviour{
 		//moneyTotal += (powerTotal * pricePerKW)/10.0;
 	}
 
-    public void PerformMaintenance()
+    public double PerformMaintenance()
     {
         moneyTotal -= CalculateDailyCosts();
         Debug.Log("Daily Maintenance performed! Cost: " + totalMaintenanceCost);
+        return totalMaintenanceCost;
     }
 
-    public void CalculateDailyIncome()
+    public double CalculateDailyIncome()
     {
         Debug.Log("Produced " + kwProducedToday + " kw/h today.");
         moneyTotal += kwProducedToday * pricePerKW;
         Debug.Log("$" + kwProducedToday * pricePerKW + " earned.");
         kwProducedToday = 0;
+        double income = dailyIncome;
+        dailyIncome = 0;
+        return income;
     }
 
     private double CalculateDailyCosts()
@@ -132,6 +135,7 @@ public class SessionManager : MonoBehaviour{
 	public double CountPowerProduced(){
         float power = (float)CountPower();
         kwProducedToday += power;
+        dailyIncome += power * pricePerKW;
         return power;
 	}
 

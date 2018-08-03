@@ -10,11 +10,15 @@ public class GUIHandler : MonoBehaviour {
     public GameObject timeDisplay;
     public GameObject priceDisplay;
     public GameObject demandDisplay;
+    public GameObject maintCostDisplay;
+    public GameObject dailyProfitDisplay;
 	SessionManager sm;
 
     private float time;
     private int hour = 0;
     string ampm = "am";
+    double dailyMaintenanceCost = 0;
+    double dailyIncome = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +32,8 @@ public class GUIHandler : MonoBehaviour {
         timeDisplay.GetComponent<Text>().text = ((int)(time % 12)+1).ToString("00") + ampm;
         priceDisplay.GetComponent<Text>().text = "Price: " + sm.PricePerKW.ToString("0.0000");
         demandDisplay.GetComponent<Text>().text = "Demand:" + sm.CurrentDemand.ToString("F");
+        maintCostDisplay.GetComponent<Text>().text = dailyMaintenanceCost.ToString("0.00");
+        dailyProfitDisplay.GetComponent<Text>().text = dailyIncome.ToString("0.00");
     }
 
     void FixedUpdate()
@@ -44,8 +50,8 @@ public class GUIHandler : MonoBehaviour {
         {
             ampm = "am";
             dayNightDisplay.GetComponent<Slider>().value = 0;
-            sm.PerformMaintenance();
-            sm.CalculateDailyIncome();
+            dailyMaintenanceCost = sm.PerformMaintenance();
+            dailyIncome = sm.CalculateDailyIncome();
         }
         else if(time >= 12)
         {
