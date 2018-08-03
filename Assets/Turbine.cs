@@ -6,12 +6,30 @@ public class Turbine : Tile {
 	public double steam = 0;
 	public double maxSteam = 35;
     double kwPerSteamUnit = 1;
+
+    double isentropicEfficiency = 0.80;
+    double generatorEfficiency = 0.95;
     
 
     // Use this for initialization
     void Start () {
 		kwProduced = 0;
         maintenanceCost = 2.50;
+        switch (TileName)
+        {
+            case "Hobbyist Turbine":
+                isentropicEfficiency = 0.70;
+                generatorEfficiency = 0.92;
+                maxSteam = 35;
+                break;
+            case "Industrial Turbine":
+                isentropicEfficiency = 0.80;
+                generatorEfficiency = 0.95;
+                maxSteam = 320;
+                break;
+            default:
+                break;
+        }
 	}
 	
 	// Update is called once per frame
@@ -38,7 +56,7 @@ public class Turbine : Tile {
             }
         }
         steam += steamUnits;
-        kwProduced = steam * kwPerSteamUnit;
+        kwProduced = steam * kwPerSteamUnit * generatorEfficiency;
     }
     override
     public double PerformDailyMaintenance()

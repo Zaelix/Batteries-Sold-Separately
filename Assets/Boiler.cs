@@ -6,10 +6,25 @@ using UnityEngine;
 public class Boiler : Tile {
 	double steamProduced = 8.142;
     double steamUsed = 0;
-
+    double coalUsed;
 	// Use this for initialization
 	void Start () {
-	}
+        switch (TileName)
+        {
+            case "Hobbyist Boiler":
+                steamProduced = 8.142;
+                maintenanceCost = 1.50;
+                coalUsed = 1;
+                break;
+            case "Industrial Boiler":
+                steamProduced = 80;
+                maintenanceCost = 5.50;
+                coalUsed = 7;
+                break;
+            default:
+                break;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -29,6 +44,6 @@ public class Boiler : Tile {
     override
     public double PerformDailyMaintenance()
     {
-        return 24*sm.PriceOfCoal + 1.50;
+        return 24*(sm.PriceOfCoal*coalUsed) + maintenanceCost;
     }
 }

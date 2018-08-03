@@ -7,8 +7,9 @@ public class SessionManager : MonoBehaviour{
 	GameObject selectionBox;
 	GameObject selection;
     GameObject buildGhost;
-	GameObject[,] floorMap = new GameObject[50,50];
-	GameObject[,] factoryMap = new GameObject[50,50];
+    int mapSize = 15;
+    GameObject[,] floorMap;
+    GameObject[,] factoryMap;
     Dictionary<string, double> costs = new Dictionary<string, double>();
     Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
     bool isBuilding = false;
@@ -36,6 +37,9 @@ public class SessionManager : MonoBehaviour{
 
 	// Use this for initialization
 	void Start () {
+        floorMap = new GameObject[mapSize, mapSize];
+        factoryMap = new GameObject[mapSize, mapSize];
+
         Tile.SetManager(this.gameObject);
 		cam = GameObject.FindGameObjectWithTag ("MainCamera");
 		InitializeFloor ();
@@ -51,26 +55,33 @@ public class SessionManager : MonoBehaviour{
     }
 
 	private void InitializeFloor(){
-		for (int x = 0; x < 50; x++) {
-			for (int y = 0; y < 50; y++) {
+		for (int x = 0; x < mapSize; x++) {
+			for (int y = 0; y < mapSize; y++) {
 				floorMap [x, y] = CreateFloorObject (x, y);
 			}
 		}
 	}
 
 	private void InitializeDictionaries(){
+        // COSTS
 		costs.Add ("", 9999999);
         sprites.Add("", Resources.Load<Sprite>("images/select"));
-		costs.Add ("Boiler", 300);
-        sprites.Add("Boiler", Resources.Load<Sprite>("images/Boiler"));
-        costs.Add ("Turbine", 500);
-        sprites.Add("Turbine", Resources.Load<Sprite>("images/Turbine"));
+        costs.Add("Hobbyist Boiler", 300);
+        sprites.Add("Hobbyist Boiler", Resources.Load<Sprite>("images/Boiler"));
+        costs.Add("Industrial Boiler", 1000);
+        sprites.Add("Industrial Boiler", Resources.Load<Sprite>("images/Boiler"));
+
+        costs.Add("Hobbyist Turbine", 350);
+        sprites.Add("Hobbyist Turbine", Resources.Load<Sprite>("images/Turbine"));
+        costs.Add ("Industrial Turbine", 1000);
+        sprites.Add("Industrial Turbine", Resources.Load<Sprite>("images/Turbine"));
+
+        // 
     }
 
 	// Update is called once per frame
 	void Update () {
 		GetInput ();
-		//CountPowerProduced ();
         CalculateMarketDemand();
     }
 
@@ -95,9 +106,9 @@ public class SessionManager : MonoBehaviour{
     private double CalculateDailyCosts()
     {
         double totalCosts = 0;
-        for (int x = 0; x < 50; x++)
+        for (int x = 0; x < mapSize; x++)
         {
-            for (int y = 0; y < 50; y++)
+            for (int y = 0; y < mapSize; y++)
             {
                 if (factoryMap[x, y] != null)
                 {
@@ -119,19 +130,28 @@ public class SessionManager : MonoBehaviour{
     }
 
 	public double CountPowerProduced(){
-		float power = 0;
-		for (int x = 0; x < 50; x++) {
-			for (int y = 0; y < 50; y++) {
-				if (factoryMap [x, y] != null) {
-					Tile tile = factoryMap [x, y].GetComponent<Tile> ();
-					power += (float)tile.KwProduced;
-				}
-			}
-		}
+        float power = (float)CountPower();
         kwProducedToday += power;
-        powerTotal = power;
         return power;
 	}
+
+    public double CountPower()
+    {
+        float power = 0;
+        for (int x = 0; x < mapSize; x++)
+        {
+            for (int y = 0; y < mapSize; y++)
+            {
+                if (factoryMap[x, y] != null)
+                {
+                    Tile tile = factoryMap[x, y].GetComponent<Tile>();
+                    power += (float)tile.KwProduced;
+                }
+            }
+        }
+        powerTotal = power;
+        return power;
+    }
 
 	private void GetInput(){
 		// Movement
@@ -151,16 +171,25 @@ public class SessionManager : MonoBehaviour{
 			cam.transform.position += new Vector3(0.2f,0,0); 
 		}
 
-		if (Input.GetKeyDown (KeyCode.Alpha1)) {
-            SetBuilding("Boiler");
-		}
-		else if (Input.GetKeyDown (KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SetBuilding("Turbine");
+            SetBuilding("Hobbyist Boiler");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetBuilding("Industrial Boiler");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SetBuilding("Hobbyist Turbine");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SetBuilding("Industrial Turbine");
         }
 
-		// Mouse Input
-		if (Input.GetMouseButtonDown (0) && isBuilding == true && selection.GetComponent<Tile>().IsBuildable() && moneyTotal >= costs[buildingType]) {
+        // Mouse Input
+        if (Input.GetMouseButtonDown (0) && isBuilding == true && selection.GetComponent<Tile>().IsBuildable() && moneyTotal >= costs[buildingType]) {
 			int x = (int)selection.transform.position.x;
 			int y = (int)selection.transform.position.y;
 			factoryMap [x, y] = CreateMachineObject (buildingType, x, y);
