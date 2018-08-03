@@ -58,9 +58,14 @@ public class Turbine : Tile {
         steam += steamUnits;
         kwProduced = steam * kwPerSteamUnit * generatorEfficiency;
     }
-    override
-    public double PerformDailyMaintenance()
+    
+    public override double PerformDailyMaintenance()
     {
         return maintenanceCost;
+    }
+    
+    public override void Configure()
+    {
+
     }
 }

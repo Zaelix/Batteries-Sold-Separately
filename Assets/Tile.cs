@@ -73,6 +73,8 @@ public abstract class Tile : MonoBehaviour {
 
     public abstract double PerformDailyMaintenance();
 
+    public abstract void Configure();
+
     public GameObject[] GetNeighbors() {
         GameObject[,] map = sm.FactoryMap;
         GameObject[] neighbors = new GameObject[4];

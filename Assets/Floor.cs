@@ -18,4 +18,9 @@ public class Floor : Tile {
     {
         return 0;
     }
+    
+    public override void Configure()
+    {
+
+    }
 }

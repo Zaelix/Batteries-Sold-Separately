@@ -70,4 +70,9 @@ public class GUIHandler : MonoBehaviour {
     {
         return this.time;
     }
+
+    public void DisplayBox()
+    {
+
+    }
 }
