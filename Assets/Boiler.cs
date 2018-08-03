@@ -22,8 +22,8 @@ public class Boiler : Tile {
                 steamProduced = 8.142;
                 maintenanceCost = 1.50;
                 outletPressure = 70;
-                minPressure = 40;
-                maxPressure = 70;
+                minPressure = 20;
+                maxPressure = 50;
                 outletTemperature = 225;
                 minTemperature = 150;
                 maxTemperature = 225;
@@ -32,9 +32,9 @@ public class Boiler : Tile {
             case "Industrial Boiler":
                 steamProduced = 80;
                 maintenanceCost = 5.50;
-                outletPressure = 150;
+                outletPressure = 140;
                 minPressure = 100;
-                maxPressure = 150;
+                maxPressure = 140;
                 outletTemperature = 400;
                 minTemperature = 225;
                 maxTemperature = 400;
@@ -63,6 +63,7 @@ public class Boiler : Tile {
     
     public override double PerformDailyMaintenance()
     {
+        this.SetCost(this.Cost * 0.9);
         return 24*(sm.PriceOfCoal*coalUsed) + maintenanceCost;
     }
     
@@ -70,4 +71,6 @@ public class Boiler : Tile {
     {
 
     }
+
+    
 }

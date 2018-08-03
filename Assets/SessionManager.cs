@@ -199,6 +199,10 @@ public class SessionManager : MonoBehaviour{
 			factoryMap [x, y] = CreateMachineObject (buildingType, x, y);
 			moneyTotal -= costs[buildingType];
 		}
+        else if (Input.GetKeyDown(KeyCode.Backspace) && isBuilding == false && selection != null)
+        {
+            SellMachine(selection);
+        }
 
 		if (Input.GetMouseButtonUp (1) || Input.GetKeyDown(KeyCode.Escape)) {
             SetBuilding("");
@@ -299,6 +303,16 @@ public class SessionManager : MonoBehaviour{
         get
         {
             return priceOfCoal;
+        }
+    }
+
+    public void SellMachine(GameObject tile)
+    {
+        Tile t = tile.GetComponent<Tile>();
+        if(tile.tag == "Machine")
+        {
+            moneyTotal += t.Cost;
+            Destroy(tile);
         }
     }
 }

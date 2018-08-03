@@ -71,6 +71,14 @@ public abstract class Tile : MonoBehaviour {
         }
     }
 
+    public double Cost
+    {
+        get
+        {
+            return cost;
+        }
+    }
+
     public abstract double PerformDailyMaintenance();
 
     public abstract void Configure();
@@ -112,8 +120,8 @@ public abstract class Tile : MonoBehaviour {
         }
         return nn;
     }
-
-	void OnMouseOver(){
+    
+    void OnMouseOver(){
 		sm.SetSelection (this.gameObject);
 		if (sm.GetBuildStatus ()) {
 			//this.GetComponent<Renderer> ().material.shader = Shader.Find ("Particles/VertexLit Blended");

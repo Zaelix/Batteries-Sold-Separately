@@ -27,7 +27,7 @@ public class GUIHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		powerDisplay.GetComponent<Text> ().text = sm.PowerTotal.ToString("0.000") + " KW/H";
+		powerDisplay.GetComponent<Text> ().text = sm.PowerTotal.ToString("0.000") + " KW";
 		moneyDisplay.GetComponent<Text> ().text = sm.MoneyTotal.ToString("F");
         timeDisplay.GetComponent<Text>().text = ((int)(time % 12)+1).ToString("00") + ampm;
         priceDisplay.GetComponent<Text>().text = "Price: " + sm.PricePerKW.ToString("0.0000");
