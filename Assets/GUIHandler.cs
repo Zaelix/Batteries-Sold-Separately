@@ -12,6 +12,10 @@ public class GUIHandler : MonoBehaviour {
     public GameObject demandDisplay;
     public GameObject maintCostDisplay;
     public GameObject dailyProfitDisplay;
+
+    // Build Menu stuff
+    public GameObject boilerBuildMenu;
+    public GameObject turbineBuildMenu;
 	SessionManager sm;
 
     private float time;
@@ -71,8 +75,42 @@ public class GUIHandler : MonoBehaviour {
         return this.time;
     }
 
-    public void DisplayBox()
+    public void DisplayBuildMenu(string menu)
     {
+        bool menuState = false;
+        switch (menu)
+        {
+            case "Boilers":
+                menuState = boilerBuildMenu.activeInHierarchy;
+                break;
+            case "Turbines":
+                menuState = turbineBuildMenu.activeInHierarchy;
+                break;
+            default:
+                break;
+        }
+        CloseAllMenus();
+        switch (menu)
+        {
+            case "Boilers":
+                boilerBuildMenu.SetActive(!menuState);
+                break;
+            case "Turbines":
+                turbineBuildMenu.SetActive(!menuState);
+                break;
+            default:
+                break;
+        }
+    }
 
+    private void CloseAllMenus()
+    {
+        boilerBuildMenu.SetActive(false);
+        turbineBuildMenu.SetActive(false);
+    }
+
+    public void SelectBuildingFromMenu(string type)
+    {
+        sm.SetBuilding(type);
     }
 }

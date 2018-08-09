@@ -210,7 +210,7 @@ public class SessionManager : MonoBehaviour{
 		}
 	}
 
-    private void SetBuilding(string type)
+    public void SetBuilding(string type)
     {
         isBuilding = true;
         buildingType = type;
