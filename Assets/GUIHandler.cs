@@ -7,17 +7,20 @@ public class GUIHandler : MonoBehaviour {
 	public GameObject powerDisplay;
 	public GameObject moneyDisplay;
     public GameObject dayNightDisplay;
-    public GameObject timeDisplay;
-    public GameObject priceDisplay;
-    public GameObject demandDisplay;
     public GameObject maintCostDisplay;
     public GameObject dailyProfitDisplay;
+    public GameObject timeDisplay;
+
+    public GameObject priceDisplay;
+    public GameObject demandDisplay;
+    public GameObject supplyDisplay;
 
     // Build Menu stuff
     public GameObject boilerBuildMenu;
     public GameObject turbineBuildMenu;
 	SessionManager sm;
 
+    private double produced = 0;
     private float time;
     private int hour = 0;
     string ampm = "am";
@@ -35,9 +38,10 @@ public class GUIHandler : MonoBehaviour {
 		moneyDisplay.GetComponent<Text> ().text = sm.MoneyTotal.ToString("F");
         timeDisplay.GetComponent<Text>().text = ((int)(time % 12)+1).ToString("00") + ampm;
         priceDisplay.GetComponent<Text>().text = "Price: " + sm.PricePerKW.ToString("0.0000");
-        demandDisplay.GetComponent<Text>().text = "Demand:" + sm.CurrentDemand.ToString("F");
+        demandDisplay.GetComponent<Text>().text = "Demand: " + sm.CurrentDemand.ToString("F") + " KW";
         maintCostDisplay.GetComponent<Text>().text = dailyMaintenanceCost.ToString("0.00");
         dailyProfitDisplay.GetComponent<Text>().text = dailyIncome.ToString("0.00");
+        supplyDisplay.GetComponent<Text>().text = "Supply: " + sm.MarketPowerSupply + " KW";
     }
 
     void FixedUpdate()

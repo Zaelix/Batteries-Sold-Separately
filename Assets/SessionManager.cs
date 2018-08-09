@@ -285,6 +285,14 @@ public class SessionManager : MonoBehaviour{
         }
     }
 
+    public double MarketPowerSupply
+    {
+        get
+        {
+            return marketPowerSupply;
+        }
+    }
+
     public double PricePerKW
     {
         get
